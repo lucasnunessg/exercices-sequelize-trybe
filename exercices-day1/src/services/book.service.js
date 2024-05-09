@@ -12,16 +12,23 @@ const getById = async(id) => {
     return Books;
 };
 
-const addBook = async(title, author, pageQuantify, createdAt, updatedAt) => {
+const getByAuthor = async(author) => {
+    const books = await Books.findAll({ 
+        where: { author }
+     })
+    return books;
+}
+
+const addBook = async(title, author, pageQuantify, ) => {
     const newBook = await Books.create({title, author,
-    pageQuantify, createdAt, updatedAt});
+    pageQuantify });
 
     return newBook
 };
 
-const updateBook = async (id, title,author, pageQuantify, createdAt, updatedAt) => {
+const updateBook = async (id, title,author, pageQuantify) => {
     const [updateBook] = await Books.update(
-        {title, author, pageQuantify, createdAt, updatedAt},
+        {title, author, pageQuantify},
         {where: { id }},
     )
 
@@ -41,6 +48,7 @@ module.exports = {
     getAll,
     getById,
     addBook,
+    getByAuthor,
     updateBook,
     deleteBook,
 }

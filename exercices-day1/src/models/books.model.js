@@ -1,7 +1,7 @@
 const { underscoredIf } = require("sequelize/types/lib/utils")
 
 const BooksModel = (sequelize, DataTypes) => {
-    const Books = sequelize.define('books', {
+    const Books = sequelize.define('Book', {
         title: DataTypes.STRING,
         author: DataTypes.STRING,
         pageQuantify: DataTypes.INTEGER,

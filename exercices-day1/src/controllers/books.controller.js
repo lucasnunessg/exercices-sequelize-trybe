@@ -1,8 +1,16 @@
 const { bookService } = require('../services/book.service');
 
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
     try {
-        const books = await bookService.getAll();
+        const { author } = req.query;
+
+        let books;
+
+        if(author){
+        books = await bookService.getByAuthor();
+        }else{
+        books = await bookService.getAll();
+        }
         return res.status(200).json(books);
     } catch (e) {
         console.log(e.message);
@@ -27,8 +35,8 @@ const getById = async (req, res) => {
 
 const addBook = async(req, res) => {
     try {
-        const { title, author, pageQuantify, createdAt, updatedAt } = req.body;
-        const newBook = await bookService.addBook(title, author, pageQuantify, createdAt, updatedAt);
+        const { title, author, pageQuantify } = req.body;
+        const newBook = await bookService.addBook(title, author, pageQuantify);
         return res.status(201).json(newBook);
     } catch (e) {
         console.log(e.message);
@@ -39,9 +47,9 @@ const addBook = async(req, res) => {
 const updateBook = async(req, res) => {
     try {
         const { id } = req.params;
-        const { title, author, pageQuantify, createdAt, updatedAt } = req.body;
+        const { title, author, pageQuantify } = req.body;
 
-        const updatedBook = await bookService.updateBook(id, title, author, pageQuantify, createdAt, updatedAt);
+        const updatedBook = await bookService.updateBook(id, title, author, pageQuantify);
         if (!updatedBook)
             return res.status(404).json({ message: 'Não foi possível encontrar o livro para atualizar' });
 
